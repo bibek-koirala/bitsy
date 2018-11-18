@@ -5,6 +5,8 @@
 #include <termios.h>
 #include <errno.h>
 
+#define CTRL_KEY(keyFollowingCtrl) (keyFollowingCtrl & 0x1f)
+
 struct termios origTermInfo;
 
 // Error handler
@@ -15,13 +17,13 @@ void die (const char * errorMsg){
 
 void enableCanonicalMode () {
   if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &origTermInfo) == -1 )
-      die(tcsetattr);
+      die("tcsetattr");
 }
 
 // ECHO, ICANON, ISIG , IXON, IEXTEN, ICRNL are individual bits in c_lflag.
 void disableCanonicalMode () {
   if(tcgetattr(STDIN_FILENO, &origTermInfo) == -1)
-     die(tcgetattr);
+     die("tcgetattr");
   atexit(enableCanonicalMode);
 
   struct termios termInfo = origTermInfo;
@@ -30,7 +32,7 @@ void disableCanonicalMode () {
   termInfo.c_oflag &= ~(OPOST);
   termInfo.c_lflag &= ~(ECHO | ICANON | ISIG | IEXTEN); 
   if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &termInfo) == -1)
-     die(tcsetattr);
+     die("tcsetattr");
 
   //  reads as soon as input is available
   termInfo.c_cc[VMIN] = 0;    
@@ -38,19 +40,32 @@ void disableCanonicalMode () {
   termInfo.c_cc[VTIME] = 1;   
 }
 
+char editorReadKey () {
+  int hasRead;
+  char input;
+
+  while (( hasRead = read(STDIN_FILENO, &input, 1)) != 1) {
+     if (hasRead == -1) die("read");
+  }
+
+  return input;
+}
+
+void editorProcessKeypress (){
+  char input = editorReadKey();
+
+  switch(input){
+      case CTRL_KEY('q'):
+          exit(0);
+          break;
+  }
+}
+
 int main () {
   disableCanonicalMode();
 
   while (1) {
-    char c ;
-    if (read(STDIN_FILENO, &c, 1) == -1) 
-        die("read");
-    // Displaying only non-control characters
-    if ( !iscntrl(c) ) {                     
-      printf("%c\r\n", c);
-    }
-
-    if (c == 'q') break;
+    editorProcessKeypress();
   };
 
   return 0;
