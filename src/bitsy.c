@@ -24,7 +24,14 @@ void disableCanonicalMode () {
 }
 
 int main () {
+  disableCanonicalMode();
   char c ;
-  while ( read(STDIN_FILENO, &c, 1) == 1);
+  while ( read(STDIN_FILENO, &c, 1) == 1 && c != 'q'){
+     if (!iscntrl(c)) {                     // Displaying only non-control characters
+      printf("%c\r\n", c);
+    }
+  };
+
   return 0;
 }
+
