@@ -21,15 +21,22 @@ void disableCanonicalMode () {
   termInfo.c_oflag &= ~(OPOST);
   termInfo.c_lflag &= ~(ECHO | ICANON | ISIG | IEXTEN);    // flipping bitflags and then using bitmask c_lflag
   tcsetattr(STDIN_FILENO, TCSAFLUSH, &termInfo);
+
+  termInfo.c_cc[VMIN] = 0;    // Minimum 0 byte : reads as soon as input is available
+  termInfo.c_cc[VTIME] = 1;   // Wait 100 ms before returning read().
 }
 
 int main () {
   disableCanonicalMode();
-  char c ;
-  while ( read(STDIN_FILENO, &c, 1) == 1 && c != 'q'){
-     if (!iscntrl(c)) {                     // Displaying only non-control characters
+
+  while (1) {
+    char c ;
+    read(STDIN_FILENO, &c, 1);
+    if (!iscntrl(c)) {                     // Displaying only non-control characters
       printf("%c\r\n", c);
     }
+
+    if (c == 'q') break;
   };
 
   return 0;
