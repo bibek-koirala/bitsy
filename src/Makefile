@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-Wall -Wextra -std=c99
 
-OBJS=bitsy.o terminal.o
+OBJS=bitsy.o terminal.o input.o output.o
 
 all: bitsy
 
@@ -11,6 +11,10 @@ bitsy: $(OBJS)
 bitsy.o: bitsy.c
 
 terminal.o : terminal.c terminal.h
+
+input.o : input.c input.h
+
+output.o : output.c output.h
 
 clean:
 	rm -f $(OBJS)
