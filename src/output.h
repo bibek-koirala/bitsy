@@ -2,5 +2,6 @@
 #define  OUTPUT_H
 
 void editorRefreshScreen();
+void editorDrawRows();
 
 #endif
