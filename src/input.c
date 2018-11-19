@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <unistd.h>
+#include <termios.h>
 #include "terminal.h"
 
 #define CTRL_KEY(keyFollowingCtrl) (keyFollowingCtrl & 0x1f)

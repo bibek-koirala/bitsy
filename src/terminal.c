@@ -4,9 +4,10 @@
 #include <unistd.h>
 #include <termios.h>
 #include <errno.h>
+#include <sys/ioctl.h>
 #include "terminal.h"
 
-struct termios origTermInfo;
+struct editorConfig E;
 
 // Error handler
 void die (const char * errorMsg){
@@ -17,17 +18,17 @@ void die (const char * errorMsg){
 }
 
 void enableCanonicalMode () {
-  if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &origTermInfo) == -1 )
+  if(tcsetattr(STDIN_FILENO, TCSAFLUSH, &E.origTermInfo) == -1 )
       die("tcsetattr");
 }
 
 // ECHO, ICANON, ISIG , IXON, IEXTEN, ICRNL are individual bits in c_lflag.
 void disableCanonicalMode () {
-  if(tcgetattr(STDIN_FILENO, &origTermInfo) == -1)
+  if(tcgetattr(STDIN_FILENO, &E.origTermInfo) == -1)
      die("tcgetattr");
   atexit(enableCanonicalMode);
 
-  struct termios termInfo = origTermInfo;
+  struct termios termInfo = E.origTermInfo;
   tcgetattr(STDIN_FILENO, &termInfo);
   termInfo.c_lflag &= ~(IXON | ICRNL);
   termInfo.c_oflag &= ~(OPOST);
@@ -50,4 +51,15 @@ char editorReadKey () {
   }
 
   return input;
+}
+
+int getWindowSize(int *rows, int *cols) {
+  struct winsize ws;
+  if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
+    return -1;
+  } else {
+    *cols = ws.ws_col;
+    *rows = ws.ws_row;
+    return 0;
+  }
 }

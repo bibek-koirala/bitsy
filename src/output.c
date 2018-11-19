@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <termios.h>
+#include "terminal.h"
 
+struct editorConfig E;
 
 void editorDrawRows() {
   int tildes;
-  for (tildes = 0; tildes < 24; tildes++) {
+  for (tildes = 0; tildes < E.screenRows; tildes++) {
     write(STDOUT_FILENO, "~\r\n", 3);
   }
 }
@@ -14,7 +17,7 @@ void editorRefreshScreen() {
   write(STDOUT_FILENO, "\x1b[2J", 4);
   // Repositioning the cursor to top-left corner
   write(STDOUT_FILENO, "\x1b[H", 3);
-  
+
   editorDrawRows();
   write(STDOUT_FILENO, "\x1b[H", 3);
 }
