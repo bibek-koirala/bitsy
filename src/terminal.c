@@ -10,6 +10,8 @@ struct termios origTermInfo;
 
 // Error handler
 void die (const char * errorMsg){
+  write(STDOUT_FILENO, "\x1b[2J", 4);
+  write(STDOUT_FILENO, "\x1b[H", 3);
   perror(errorMsg);
   exit(1);
 }
