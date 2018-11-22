@@ -22,7 +22,7 @@ void enableCanonicalMode () {
       die("tcsetattr");
 }
 
-// ECHO, ICANON, ISIG , IXON, IEXTEN, ICRNL are individual bits in c_lflag.
+
 void disableCanonicalMode () {
   if(tcgetattr(STDIN_FILENO, &E.origTermInfo) == -1)
      die("tcgetattr");
@@ -30,16 +30,20 @@ void disableCanonicalMode () {
 
   struct termios termInfo = E.origTermInfo;
   tcgetattr(STDIN_FILENO, &termInfo);
-  termInfo.c_lflag &= ~(IXON | ICRNL);
+
+  // turning off flags related to canonical mode.
+  termInfo.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
   termInfo.c_oflag &= ~(OPOST);
   termInfo.c_lflag &= ~(ECHO | ICANON | ISIG | IEXTEN); 
-  if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &termInfo) == -1)
-     die("tcsetattr");
 
   //  reads as soon as input is available
   termInfo.c_cc[VMIN] = 0;    
   // Wait 100 ms before returning read().
   termInfo.c_cc[VTIME] = 1;   
+
+  if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &termInfo) == -1)
+     die("tcsetattr");
+
 }
 
 char editorReadKey () {
