@@ -8,7 +8,10 @@ struct editorConfig E;
 void editorDrawRows() {
   int tildes;
   for (tildes = 0; tildes < E.screenRows; tildes++) {
-    write(STDOUT_FILENO, "~\r\n", 3);
+     write(STDOUT_FILENO, "~", 1);
+     if (tildes < E.screenRows - 1) {
+      write(STDOUT_FILENO, "\r\n", 2);
+    }
   }
 }
 
