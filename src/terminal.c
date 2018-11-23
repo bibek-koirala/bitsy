@@ -38,7 +38,7 @@ void disableCanonicalMode () {
 
   //  reads as soon as input is available
   termInfo.c_cc[VMIN] = 0;    
-  // Wait 100 ms before returning read().
+  // Wait 100 ms before returning read() inside editorReadKey()
   termInfo.c_cc[VTIME] = 1;   
 
   if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &termInfo) == -1)
@@ -57,10 +57,28 @@ char editorReadKey () {
   return input;
 }
 
+int getCursorPosition(int *rows, int *cols) {
+  char buf[32];
+  unsigned int i = 0;
+  if (write(STDOUT_FILENO, "\x1b[6n", 4) != 4) return -1;
+  while (i < sizeof(buf) - 1) {
+    if (read(STDIN_FILENO, &buf[i], 1) != 1) break;
+    // VT100 response for cursor position query contains "R" in the last bit
+    if (buf[i] == 'R') break;
+    i++;
+  }
+  buf[i] = '\0';
+  if (buf[0] != '\x1b' || buf[1] != '[') return -1;
+  // parsing cursor position from the VT100 response.
+  if (sscanf(&buf[2], "%d;%d", rows, cols) != 2) return -1;
+  return 0;
+}
+
 int getWindowSize(int *rows, int *cols) {
   struct winsize ws;
   if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 || ws.ws_col == 0) {
-    return -1;
+    if (write(STDOUT_FILENO, "\x1b[999C\x1b[999B", 12) != 12) return -1;
+    return getCursorPosition(rows, cols);
   } else {
     *cols = ws.ws_col;
     *rows = ws.ws_row;

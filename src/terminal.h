@@ -13,5 +13,6 @@ void die (const char * errorMsg);
 void enableCanonicalMode ();
 void disableCanonicalMode ();
 char editorReadKey ();
+int getCursorPosition(int *rows, int *cols);
 int getWindowSize(int *rows, int *cols);
 #endif
