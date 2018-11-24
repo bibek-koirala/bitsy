@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <termios.h>
+#include <string.h>
 #include "terminal.h"
 #include "buffer.h"
 
@@ -47,8 +48,10 @@ void editorRefreshScreen() {
   abufAppend(&abuf, "\x1b[H", 3);
 
   editorDrawRows(&abuf);
-  // Repositioning the cursor to top-left corner after generating tildes
-  abufAppend(&abuf, "\x1b[H", 3);
+  char buf[32];
+  snprintf(buf, sizeof(buf), "\x1b[%d;%dH", E.curPosY + 1, E.curPosX + 1);
+  abufAppend(&abuf, buf, strlen(buf));
+
   // Displaying the cursor back
   abufAppend(&abuf, "\x1b[?25h", 6);
 

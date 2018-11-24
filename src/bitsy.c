@@ -9,6 +9,11 @@
 struct editorConfig E;
 
 void initEditor() {
+  // Column Position of cursor
+  E.curPosX = 0; 
+  // Row position of cursor
+  E.curPosY = 0;
+  
   if (getWindowSize(&E.screenRows, &E.screenCols) == -1) die("getWindowSize");
 }
 

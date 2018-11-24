@@ -2,6 +2,7 @@
 #define TERMINAL_H
 
 struct editorConfig {
+  int curPosX, curPosY;
   int screenRows;
   int screenCols;
   struct termios origTermInfo;
