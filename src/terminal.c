@@ -53,8 +53,26 @@ char editorReadKey () {
   while (( hasRead = read(STDIN_FILENO, &input, 1)) != 1) {
      if (hasRead == -1) die("read");
   }
-
-  return input;
+  /* Pressing arrow keys send multiple bytes starting with escape sequence
+     So, if escape sequence is read, read the following two bytes after it.
+  */
+  if ( input == '\x1b') {
+      char seq[3];
+      if (read(STDIN_FILENO, &seq[0], 1) != 1) return '\x1b';
+      if (read(STDIN_FILENO, &seq[1], 1) != 1) return '\x1b';
+      if (seq[0] == '[') {
+         switch (seq[1]) {
+            case 'A': return 'w';
+            case 'B': return 's';
+            case 'C': return 'd';
+            case 'D': return 'a';
+         }
+      }
+      return '\x1b';
+  } 
+  else {
+    return input;
+  }
 }
 
 int getCursorPosition(int *rows, int *cols) {

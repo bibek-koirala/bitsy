@@ -1,6 +1,8 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
+
+
 struct editorConfig {
   int curPosX, curPosY;
   int screenRows;
