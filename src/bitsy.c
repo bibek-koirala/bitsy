@@ -16,7 +16,6 @@ void initEditor() {
 int main () {
   disableCanonicalMode();
   initEditor();
-  printf("Hello");
 
   while (1) {
     editorRefreshScreen();

@@ -19,7 +19,6 @@ void editorDrawRows(struct appendBuffer *abuf) {
 }
 
 void editorRefreshScreen() {
-  printf("editorRefreshScreen");
   struct appendBuffer abuf = ABUF_INIT;
   // clearing the entire screen 
   abufAppend(&abuf, "\x1b[2J", 4);
