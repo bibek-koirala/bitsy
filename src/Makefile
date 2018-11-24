@@ -1,7 +1,7 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -std=c99
+CFLAGS=-Wall -Wextra -std=c99 -g
 
-OBJS=bitsy.o terminal.o input.o output.o
+OBJS=bitsy.o terminal.o buffer.o input.o output.o
 
 all: bitsy
 
@@ -11,6 +11,8 @@ bitsy: $(OBJS)
 bitsy.o: bitsy.c
 
 terminal.o : terminal.c terminal.h
+
+buffer.o : buffer.c buffer.h
 
 input.o : input.c input.h
 
