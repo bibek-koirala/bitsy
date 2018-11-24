@@ -20,14 +20,18 @@ void editorDrawRows(struct appendBuffer *abuf) {
 
 void editorRefreshScreen() {
   struct appendBuffer abuf = ABUF_INIT;
+  // hiding the cursor to avoid flicker when screen refreshes
+  abufAppend(&abuf, "\x1b[?25l", 6);
   // clearing the entire screen 
   abufAppend(&abuf, "\x1b[2J", 4);
   // Repositioning the cursor to top-left corner
   abufAppend(&abuf, "\x1b[H", 3);
 
   editorDrawRows(&abuf);
-
+  // Repositioning the cursor to top-left corner after generating tildes
   abufAppend(&abuf, "\x1b[H", 3);
+  // Displaying the cursor back
+  abufAppend(&abuf, "\x1b[?25h", 6);
 
   // Writing buffer to screen
   write(STDOUT_FILENO, abuf.buf, abuf.len);
