@@ -8,17 +8,28 @@
 void editorMoveCursor(int key) {
   switch (key) {
     case ARROW_LEFT:
-      E.curPosX--;
-      break;
+        if (E.curPosX != 0) {
+            E.curPosX--;
+        }
+        break;
+
     case ARROW_RIGHT:
-      E.curPosX++;
-      break;
+         if (E.curPosX != E.screenCols -1) {
+             E.curPosX++;
+         }
+         break;
+
     case ARROW_UP:
-      E.curPosY--;
-      break;
+        if (E.curPosY != 0){
+            E.curPosY--;
+        }
+        break;
+
     case ARROW_DOWN:
-      E.curPosY++;
-      break;
+        if (E.curPosY != E.screenRows -1) {
+            E.curPosY++;
+        }
+        break;
   }
 }
 
