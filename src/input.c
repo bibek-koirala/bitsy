@@ -7,16 +7,16 @@
 
 void editorMoveCursor(char key) {
   switch (key) {
-    case 'a':
+    case ARROW_LEFT:
       E.curPosX--;
       break;
-    case 'd':
+    case ARROW_RIGHT:
       E.curPosX++;
       break;
-    case 'w':
+    case ARROW_UP:
       E.curPosY--;
       break;
-    case 's':
+    case ARROW_DOWN:
       E.curPosY++;
       break;
   }
@@ -31,10 +31,10 @@ void editorProcessKeypress (){
           write(STDOUT_FILENO, "\x1b[H", 3);
           exit(0);
           break;
-      case 'w':
-      case 's':
-      case 'a':
-      case 'd':
+      case ARROW_UP:
+      case ARROW_DOWN:
+      case ARROW_LEFT:
+      case ARROW_RIGHT:
           editorMoveCursor(input);
           break;
   }

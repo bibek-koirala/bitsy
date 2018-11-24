@@ -1,7 +1,12 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
-
+enum editorKey {
+  ARROW_LEFT = 'a',
+  ARROW_RIGHT = 'd',
+  ARROW_UP = 'w',
+  ARROW_DOWN = 's'
+};
 
 struct editorConfig {
   int curPosX, curPosY;
