@@ -46,7 +46,7 @@ void disableCanonicalMode () {
 
 }
 
-char editorReadKey () {
+int editorReadKey () {
   int hasRead;
   char input;
 

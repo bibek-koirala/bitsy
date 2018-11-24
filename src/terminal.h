@@ -2,10 +2,11 @@
 #define TERMINAL_H
 
 enum editorKey {
-  ARROW_LEFT = 'a',
-  ARROW_RIGHT = 'd',
-  ARROW_UP = 'w',
-  ARROW_DOWN = 's'
+  // giving large enough int value that is out of range of char(individual keypresses).
+  ARROW_LEFT = 1000,
+  ARROW_RIGHT ,
+  ARROW_UP ,
+  ARROW_DOWN
 };
 
 struct editorConfig {
@@ -20,7 +21,7 @@ extern struct editorConfig E;
 void die (const char * errorMsg);
 void enableCanonicalMode ();
 void disableCanonicalMode ();
-char editorReadKey ();
+int editorReadKey ();
 int getCursorPosition(int *rows, int *cols);
 int getWindowSize(int *rows, int *cols);
 #endif

@@ -5,7 +5,7 @@
 
 #define CTRL_KEY(keyFollowingCtrl) (keyFollowingCtrl & 0x1f)
 
-void editorMoveCursor(char key) {
+void editorMoveCursor(int key) {
   switch (key) {
     case ARROW_LEFT:
       E.curPosX--;
@@ -23,7 +23,7 @@ void editorMoveCursor(char key) {
 }
 
 void editorProcessKeypress (){
-  char input = editorReadKey();
+  int input = editorReadKey();
 
   switch(input){
       case CTRL_KEY('q'):
