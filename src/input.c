@@ -42,6 +42,13 @@ void editorProcessKeypress (){
           write(STDOUT_FILENO, "\x1b[H", 3);
           exit(0);
           break;
+      
+      case HOME_KEY:
+          E.curPosX = 0;
+          break;
+      case END_KEY:
+          E.curPosX = E.screenCols - 1;
+          break;
 
       case PAGE_UP:
       case PAGE_DOWN:
