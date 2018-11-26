@@ -20,7 +20,7 @@ void editorDrawRows(struct appendBuffer *abuf) {
   for (drawRow = 0; drawRow < E.screenRows; drawRow++) {
     if (drawRow >= E.numRows) {
       // Display welcome message at one-third of screen from top
-      if (drawRow == E.screenRows / 3) {
+      if (E.numRows == 0 && drawRow == E.screenRows / 3) {
         char welcome[80];
         int welcomeLen = snprintf(welcome, sizeof(welcome),
           "bitsy editor -- version %s", BITSY_VERSION);
