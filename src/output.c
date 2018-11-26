@@ -40,9 +40,9 @@ void editorDrawRows(struct appendBuffer *abuf) {
       }
     }
     else {
-      int len = E.row.size;
+      int len = E.row[drawRow].size;
       if (len > E.screenCols) len = E.screenCols;
-      abufAppend(abuf, E.row.chars, len);
+      abufAppend(abuf, E.row[drawRow].chars, len);
     }
      // Clear a line/row 
      abufAppend(abuf, "\x1b[K", 3);
