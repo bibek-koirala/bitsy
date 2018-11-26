@@ -1,3 +1,8 @@
+/*
+   Author : Bibek Koirala
+   Description : Code related to drawing and displaying editor and user input after processing
+*/
+
 #include <stdio.h>
 #include <unistd.h>
 #include <termios.h>

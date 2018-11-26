@@ -1,3 +1,8 @@
+/*
+   Author : Bibek Koirala
+   Description : Entry point  of the bitsy editor.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>

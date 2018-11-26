@@ -1,3 +1,8 @@
+/*
+   Author : Bibek Koirala
+   Description : Code realted to handling buffer from user input and file content.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

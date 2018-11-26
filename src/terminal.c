@@ -1,3 +1,8 @@
+/*
+   Author : Bibek Koirala
+   Description : Code related to configuring terminal and reading user input
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>

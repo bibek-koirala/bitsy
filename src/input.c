@@ -1,3 +1,8 @@
+/*
+   Author : Bibek Koirala
+   Description : Code related to handling and processing user input
+*/
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <termios.h>

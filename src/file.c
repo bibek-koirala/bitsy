@@ -1,3 +1,8 @@
+/*
+   Author : Bibek Koirala
+   Description : Code related to file i/o
+*/
+
 // macros for getline(). The header files included below use these macros.
 #define _DEFAULT_SOURCE
 #define _BSD_SOURCE
