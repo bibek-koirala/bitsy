@@ -11,10 +11,11 @@
 struct editorConfig E;
 
 void editorDrawRows(struct appendBuffer *abuf) {
-  int tildes;
-  for (tildes = 0; tildes < E.screenRows; tildes++) {
-    // Display welcome message at one-third of screen from top
-     if (tildes == E.screenRows / 3) {
+  int drawRow;
+  for (drawRow = 0; drawRow < E.screenRows; drawRow++) {
+    if (drawRow >= E.numRows) {
+      // Display welcome message at one-third of screen from top
+      if (drawRow == E.screenRows / 3) {
         char welcome[80];
         int welcomeLen = snprintf(welcome, sizeof(welcome),
           "bitsy editor -- version %s", BITSY_VERSION);
@@ -27,14 +28,20 @@ void editorDrawRows(struct appendBuffer *abuf) {
         }
         while (padding--) abufAppend(abuf, " ", 1);
         abufAppend(abuf, welcome, welcomeLen);
-     }
+      }
 
-     else {
+      else {
         abufAppend(abuf, "~", 1);
-     }
+      }
+    }
+    else {
+      int len = E.row.size;
+      if (len > E.screenCols) len = E.screenCols;
+      abufAppend(abuf, E.row.chars, len);
+    }
      // Clear a line/row 
      abufAppend(abuf, "\x1b[K", 3);
-     if (tildes < E.screenRows - 1) {
+     if (drawRow < E.screenRows - 1) {
         abufAppend( abuf, "\r\n", 2);
     }
   }
