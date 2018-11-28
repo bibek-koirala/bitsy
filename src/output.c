@@ -72,7 +72,7 @@ void editorRefreshScreen() {
 
   editorDrawRows(&abuf);
   char buf[32];
-  snprintf(buf, sizeof(buf), "\x1b[%d;%dH", E.curPosY + 1, E.curPosX + 1);
+  snprintf(buf, sizeof(buf), "\x1b[%d;%dH", (E.curPosY - E.rowOffset) + 1, E.curPosX + 1);
   abufAppend(&abuf, buf, strlen(buf));
 
   // Displaying the cursor back
