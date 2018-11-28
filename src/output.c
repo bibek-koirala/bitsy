@@ -15,10 +15,20 @@
 
 struct editorConfig E;
 
+void editorScroll() {
+  if (E.curPosY< E.rowOffset) {
+    E.rowOffset = E.curPosY;
+  }
+  if (E.curPosY >= E.rowOffset + E.screenRows) {
+    E.rowOffset = E.curPosY- E.screenRows + 1;
+  }
+}
+
 void editorDrawRows(struct appendBuffer *abuf) {
   int drawRow;
   for (drawRow = 0; drawRow < E.screenRows; drawRow++) {
-    if (drawRow >= E.numRows) {
+    int fileRow = drawRow + E.rowOffset;
+    if (fileRow >= E.numRows) {
       // Display welcome message at one-third of screen from top
       if (E.numRows == 0 && drawRow == E.screenRows / 3) {
         char welcome[80];
@@ -40,9 +50,9 @@ void editorDrawRows(struct appendBuffer *abuf) {
       }
     }
     else {
-      int len = E.row[drawRow].size;
+      int len = E.row[fileRow].size;
       if (len > E.screenCols) len = E.screenCols;
-      abufAppend(abuf, E.row[drawRow].chars, len);
+      abufAppend(abuf, E.row[fileRow].chars, len);
     }
      // Clear a line/row 
      abufAppend(abuf, "\x1b[K", 3);
@@ -53,6 +63,7 @@ void editorDrawRows(struct appendBuffer *abuf) {
 }
 
 void editorRefreshScreen() {
+  editorScroll();
   struct appendBuffer abuf = ABUF_INIT;
   // hiding the cursor to avoid flicker when screen refreshes
   abufAppend(&abuf, "\x1b[?25l", 6);

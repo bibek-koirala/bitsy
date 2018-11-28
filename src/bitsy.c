@@ -19,8 +19,10 @@ void initEditor() {
   E.curPosX = 0; 
   // Row position of cursor
   E.curPosY = 0;
-
+ 
+  E.rowOffset = 0;
   E.numRows = 0;
+  E.row = NULL;
   
   if (getWindowSize(&E.screenRows, &E.screenCols) == -1) die("getWindowSize");
 }

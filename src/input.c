@@ -31,7 +31,7 @@ void editorMoveCursor(int key) {
         break;
 
     case ARROW_DOWN:
-        if (E.curPosY != E.screenRows -1) {
+        if (E.curPosY < E.numRows) {
             E.curPosY++;
         }
         break;
