@@ -19,10 +19,8 @@ void editorMoveCursor(int key) {
         break;
 
     case ARROW_RIGHT:
-         if (E.curPosX != E.screenCols -1) {
-             E.curPosX++;
-         }
-         break;
+        E.curPosX++;
+        break;
 
     case ARROW_UP:
         if (E.curPosY != 0){

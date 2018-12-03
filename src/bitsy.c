@@ -21,6 +21,7 @@ void initEditor() {
   E.curPosY = 0;
  
   E.rowOffset = 0;
+  E.colOffset = 0;
   E.numRows = 0;
   E.row = NULL;
   

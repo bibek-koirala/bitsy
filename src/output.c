@@ -22,6 +22,12 @@ void editorScroll() {
   if (E.curPosY >= E.rowOffset + E.screenRows) {
     E.rowOffset = E.curPosY- E.screenRows + 1;
   }
+  if (E.curPosY < E.colOffset) {
+    E.colOffset = E.curPosX;
+  }
+  if (E.curPosX>= E.colOffset + E.screenCols) {
+    E.colOffset = E.curPosX- E.screenCols + 1;
+  }
 }
 
 void editorDrawRows(struct appendBuffer *abuf) {
@@ -50,9 +56,10 @@ void editorDrawRows(struct appendBuffer *abuf) {
       }
     }
     else {
-      int len = E.row[fileRow].size;
+      int len = E.row[fileRow].size - E.colOffset;
+      if (len < 0) len = 0;
       if (len > E.screenCols) len = E.screenCols;
-      abufAppend(abuf, E.row[fileRow].chars, len);
+      abufAppend(abuf, &E.row[fileRow].chars[E.colOffset], len);
     }
      // Clear a line/row 
      abufAppend(abuf, "\x1b[K", 3);

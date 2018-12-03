@@ -22,6 +22,7 @@ typedef struct editorRow {
 struct editorConfig {
   int curPosX, curPosY;
   int rowOffset;
+  int colOffset;
   int screenRows;
   int screenCols;
   int numRows;
