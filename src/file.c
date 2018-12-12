@@ -33,12 +33,15 @@ void editorOpen(char *filename) {
   size_t lineCapacity = 0;
   ssize_t lineLength;
 
+
   while ((lineLength = getline(&line, &lineCapacity, fp)) != -1) {
        while (lineLength > 0 && (line[lineLength - 1] == '\n' || line[lineLength - 1] == '\r')){
               lineLength--;
         }
      editorAppendRow(line, lineLength);
-  }
+
+     }
+     
   free(line);
   fclose(fp);
 }

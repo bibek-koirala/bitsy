@@ -3,6 +3,7 @@
    Description : Code related to handling and processing user input
 */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <termios.h>
@@ -11,6 +12,8 @@
 #define CTRL_KEY(keyFollowingCtrl) (keyFollowingCtrl & 0x1f)
 
 void editorMoveCursor(int key) {
+  editorRow *row = (E.curPosY >= E.numRows) ? NULL : &E.row[E.curPosY];
+
   switch (key) {
     case ARROW_LEFT:
         if (E.curPosX != 0) {
@@ -19,7 +22,9 @@ void editorMoveCursor(int key) {
         break;
 
     case ARROW_RIGHT:
-        E.curPosX++;
+       if (row && E.curPosX < (row -> size)) {
+           E.curPosX++;
+        }
         break;
 
     case ARROW_UP:
